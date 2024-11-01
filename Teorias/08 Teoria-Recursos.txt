@@ -1,0 +1,199 @@
+======================================================
+     Diapositivas 15 - Archivo fuente: Empleado.cs 
+======================================================
+
+namespace Teoria8;
+
+class Empleado(string nombre, int legajo)
+{
+   public string Nombre { get; } = nombre;
+   public int Legajo { get; } = legajo;
+   public void Imprimir()
+     => Console.WriteLine($"Soy {Nombre}, legajo {Legajo}");
+}
+
+
+
+
+======================================================
+     Diapositivas 16 - Archivo fuente: Program.cs 
+======================================================
+
+using Teoria8;
+
+Empleado[] empleados = [
+   new Empleado("Juan",79),
+   new Empleado("Adriana",123),
+   new Empleado("Diego",23)
+];
+Array.Sort(empleados);
+foreach (Empleado e in empleados)
+{
+   e.Imprimir();
+}
+
+
+
+======================================================
+     Diapositivas 20 - Archivo fuente: Empleado.cs 
+======================================================
+
+class Empleado(string nombre, int legajo) : IComparable
+{
+   public int CompareTo(object? obj)
+   {
+       int result = 0;
+       if (obj is Empleado e)
+       {
+           string nombre = e.Nombre;
+           result = this.Nombre.CompareTo(nombre);
+       }
+       return result;
+   }
+
+   . . .
+
+
+
+======================================================
+     Diapositivas 30 - Archivo fuente: Pyme.cs
+======================================================
+
+namespace Teoria8;
+
+class Pyme
+{
+   Empleado[] empleados = new Empleado[3];
+   public Pyme(Empleado e1, Empleado e2, Empleado e3)
+   {
+         empleados[0] = e1;
+         empleados[1] = e2;
+         empleados[2] = e3;
+   }
+}
+
+
+
+======================================================
+     Diapositivas 31 - Archivo fuente: Program.cs
+======================================================
+
+using Teoria8;
+
+Pyme miPyme = new Pyme(new Empleado("Juan",79),
+                       new Empleado("Adriana",123),
+                       new Empleado("Diego",23));
+
+foreach (Empleado e in miPyme)
+{
+   e.Imprimir();
+}
+
+
+
+
+======================================================
+     Diapositivas 60
+======================================================
+
+--------- Auxiliar.cs ---------
+namespace Teoria8;
+class Auxiliar
+{
+    public void Procesar()
+    {
+        Console.WriteLine(SumaUno(10));
+        Console.WriteLine(SumaDos(10));
+    }
+    int SumaUno(int n) => n + 1;
+    int SumaDos(int n) => n + 2;
+}
+
+--------- Program.cs ---------
+using Teoria8;
+
+Auxiliar aux = new Auxiliar();
+aux.Procesar();
+
+
+
+======================================================
+     Diapositivas 66 
+======================================================
+
+------FuncionEntera.cs-------
+namespace Teoria8;
+delegate int FuncionEntera(int n);
+
+--------Auxiliar.cs----------
+namespace Teoria8;
+class Auxiliar
+{
+    public void Procesar()
+    {
+        FuncionEntera f;
+        f = SumaUno;
+        Console.WriteLine(f(10));
+        f = SumaDos;
+        Console.WriteLine(f(10));
+    }
+    int SumaUno(int n) => n + 1;
+    int SumaDos(int n) => n + 2;
+}
+
+======================================================
+     Diapositivas 70 - Archivo fuente: Auxiliar.cs
+======================================================
+
+. . .
+void Aplicar(int[] v, FuncionEntera f)
+{
+   for (int i = 0; i < v.Length; i++)
+   {
+      v[i] = f(v[i]);
+   }
+}
+void Imprimir(int[] v)
+{
+   foreach (int i in v)
+   {
+       Console.Write(i + " ");
+   }
+   Console.WriteLine();
+}
+
+
+======================================================
+     Diapositivas 71 - Archivo fuente: Auxiliar.cs
+======================================================
+ 
+   . . .
+   public void Procesar()
+   {
+       int[] v =[11, 5, 90];
+       Aplicar(v, SumaDos);
+       Imprimir(v);
+       Aplicar(v, SumaUno);
+       Imprimir(v);
+   }
+   . . . 
+
+
+
+======================================================
+     Diapositivas 76 - Archivo fuente: Auxiliar.cs
+======================================================
+   . . .
+   public void Procesar()
+   {
+       int[] v =[11, 5, 90];
+       FuncionEntera f = delegate (int n)
+       {
+           return n * 2;
+       };
+       Aplicar(v, f);
+       Imprimir(v);
+       Aplicar(v, delegate (int n) { return n + 10; });
+       Imprimir(v);
+   }
+   . . .
